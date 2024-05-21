@@ -112,7 +112,8 @@ export const config = {
     icon: <Braces />,
     label: 'Code Explain',
     genPrompt: createGenPrompt({
-      message: 'Explain the following code',
+      message:
+        'Explain the following code and analyze the possible optimizations, and provide the optimized results',
       includeLanguagePrefix: true,
     }),
   },
