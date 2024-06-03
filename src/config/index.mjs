@@ -267,6 +267,14 @@ export const defaultConfig = {
     'azureOpenAi',
   ],
   activeSelectionTools: ['translate', 'summary', 'polish', 'code', 'ask'],
+  customSelectionTools: [
+    {
+      name: '',
+      iconKey: 'explain',
+      prompt: 'sample prompt: {{selection}}',
+      active: false,
+    },
+  ],
   activeSiteAdapters: [
     'bilibili',
     'github',
@@ -279,6 +287,7 @@ export const defaultConfig = {
     'juejin',
     'mp.weixin.qq',
     'followin',
+    'arxiv',
   ],
   accessToken: '',
   tokenSavedOn: 0,
@@ -330,6 +339,7 @@ export const defaultConfig = {
     'juejin',
     'mp.weixin.qq',
     'followin',
+    'arxiv',
   ],
 }
 
