@@ -8,6 +8,11 @@ export const TriggerMode = {
   manually: 'Manually',
 }
 
+export const DisplayMode = {
+  sidebar: 'Display in sidebar',
+  floatingToolbar: 'Display in floating toolbar',
+}
+
 export const ThemeMode = {
   light: 'Light',
   dark: 'Dark',
@@ -24,6 +29,7 @@ export const ModelMode = {
 export const chatgptWebModelKeys = [
   'chatgptFree35',
   'chatgptFree4o',
+  'chatgptFree4oMini',
   'chatgptPlus4',
   'chatgptFree35Mobile',
   'chatgptPlus4Browsing',
@@ -40,6 +46,7 @@ export const chatgptApiModelKeys = [
   'chatgptApi35_1106',
   'chatgptApi35_0125',
   'chatgptApi4o_128k',
+  'chatgptApi4oMini',
   'chatgptApi4_8k',
   'chatgptApi4_8k_0613',
   'chatgptApi4_32k',
@@ -50,12 +57,14 @@ export const chatgptApiModelKeys = [
   'chatgptApi4_128k_0125_preview',
 ]
 export const customApiModelKeys = ['customModel']
+export const ollamaApiModelKeys = ['ollamaModel']
 export const azureOpenAiApiModelKeys = ['azureOpenAi']
 export const claudeApiModelKeys = [
   'claude12Api',
   'claude2Api',
   'claude21Api',
   'claude3HaikuApi',
+  'claude35SonnetApi',
   'claude3SonnetApi',
   'claude3OpusApi',
 ]
@@ -90,6 +99,7 @@ export const Models = {
   chatgptFree35: { value: 'text-davinci-002-render-sha', desc: 'ChatGPT (Web)' },
 
   chatgptFree4o: { value: 'gpt-4o', desc: 'ChatGPT (Web, GPT-4o)' },
+  chatgptFree4oMini: { value: 'gpt-4o-mini', desc: 'ChatGPT (Web, GPT-4o mini)' },
 
   chatgptPlus4: { value: 'gpt-4', desc: 'ChatGPT (Web, GPT-4 All in one)' },
   chatgptPlus4Browsing: { value: 'gpt-4-gizmo', desc: 'ChatGPT (Web, GPT-4)' },
@@ -98,6 +108,7 @@ export const Models = {
   chatgptApi35_16k: { value: 'gpt-3.5-turbo-16k', desc: 'ChatGPT (GPT-3.5-turbo-16k)' },
 
   chatgptApi4o_128k: { value: 'gpt-4o', desc: 'ChatGPT (GPT-4o)' },
+  chatgptApi4oMini: { value: 'gpt-4o-mini', desc: 'ChatGPT (GPT-4o mini)' },
   chatgptApi4_8k: { value: 'gpt-4', desc: 'ChatGPT (GPT-4-8k)' },
   chatgptApi4_32k: { value: 'gpt-4-32k', desc: 'ChatGPT (GPT-4-32k)' },
   chatgptApi4_128k: {
@@ -127,6 +138,10 @@ export const Models = {
   },
   claude3SonnetApi: { value: 'claude-3-sonnet-20240229', desc: 'Claude.ai (API, Claude 3 Sonnet)' },
   claude3OpusApi: { value: 'claude-3-opus-20240229', desc: 'Claude.ai (API, Claude 3 Opus)' },
+  claude35SonnetApi: {
+    value: 'claude-3-5-sonnet-20240620',
+    desc: 'Claude.ai (API, Claude 3.5 Sonnet)',
+  },
 
   bingFree4: { value: '', desc: 'Bing (Web, GPT-4)' },
   bingFreeSydney: { value: '', desc: 'Bing (Web, GPT-4, Sydney)' },
@@ -149,6 +164,7 @@ export const Models = {
   gptApiDavinci: { value: 'text-davinci-003', desc: 'GPT-3.5' },
 
   customModel: { value: '', desc: 'Custom Model' },
+  ollamaModel: { value: '', desc: 'Ollama API' },
   azureOpenAi: { value: '', desc: 'ChatGPT (Azure)' },
   waylaidwandererApi: { value: '', desc: 'Waylaidwanderer API (Github)' },
 
@@ -197,6 +213,8 @@ export const defaultConfig = {
 
   /** @type {keyof TriggerMode}*/
   triggerMode: 'manually',
+  /** @type {keyof DisplayMode}*/
+  displayMode: 'sidebar',
   /** @type {keyof ThemeMode}*/
   themeMode: 'auto',
   /** @type {keyof Models}*/
@@ -233,6 +251,10 @@ export const defaultConfig = {
   customModelName: 'gpt-3.5-turbo',
   githubThirdPartyUrl: 'http://127.0.0.1:3000/conversation',
 
+  ollamaEndpoint: 'http://127.0.0.1:11434',
+  ollamaModelName: 'gemma2',
+  keepAliveTime: '5m',
+
   // advanced
 
   maxResponseTokenLength: 1000,
@@ -256,14 +278,16 @@ export const defaultConfig = {
   activeApiModes: [
     'chatgptFree35',
     'chatgptFree4o',
+    'chatgptFree4oMini',
     'chatgptPlus4',
     'chatgptApi35',
-    'chatgptApi4_128k',
+    'chatgptApi4o_128k',
     'claude2WebFree',
     'bingFree4',
     'moonshotWebFree',
     'chatglmTurbo',
     'customModel',
+    'ollamaModel',
     'azureOpenAi',
   ],
   activeSelectionTools: ['translate', 'summary', 'polish', 'code', 'ask'],
@@ -362,6 +386,10 @@ export function isUsingMultiModeModel(configOrSession) {
 
 export function isUsingCustomModel(configOrSession) {
   return customApiModelKeys.includes(configOrSession.modelName)
+}
+
+export function isUsingOllamaModel(configOrSession) {
+  return ollamaApiModelKeys.includes(configOrSession.modelName)
 }
 
 export function isUsingChatGLMApi(configOrSession) {
